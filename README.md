@@ -6,6 +6,8 @@
 
 MeetingSense è un assistente che trasforma la trascrizione di una call aziendale (Teams, Meet, Zoom o qualsiasi testo) in un verbale strutturato e pronto da condividere: cosa è stato deciso, chi deve fare cosa, quali rischi sono emersi e quali domande restano aperte — senza dover riascoltare o rileggere l'intera riunione.
 
+**🔗 Prova la demo: [meeting-sense-gray.vercel.app](https://meeting-sense-gray.vercel.app/)**
+
 ![Screenshot di MeetingSense](docs/screenshot.png)
 
 ## Cosa estrae
