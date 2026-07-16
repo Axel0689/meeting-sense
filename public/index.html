@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeetingSense: Dalla Riunione alle Decisioni</title>
+  <meta name="description" content="Incolla la trascrizione di una riunione e ottieni riassunto, decisioni, action item per persona e follow-up.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,550;9..144,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+</head>
+<body>
+  <div class="page">
+
+    <header class="masthead">
+      <div class="brand">
+        <img src="/icon.png" alt="" class="brand-mark" width="32" height="32">
+        <div class="wordmark">Meeting<em>Sense</em></div>
+      </div>
+      <p class="tagline">Verbale n. <span id="doc-number">—</span> · redatto automaticamente</p>
+    </header>
+
+    <section class="intro">
+      <h1>Dalla riunione<br><em>alle decisioni.</em></h1>
+      <p>Incolla la trascrizione di una call — o carica il file <strong>.txt</strong> / <strong>.vtt</strong> esportato da Teams, Meet o Zoom — e ottieni riassunto, decisioni prese, action item per persona e follow-up suggeriti.</p>
+    </section>
+
+    <section class="workbench" id="workbench">
+      <div class="input-frame" id="drop-zone">
+        <div class="input-toolbar">
+          <span class="frame-label">Trascrizione</span>
+          <div class="toolbar-actions">
+            <button type="button" class="ghost-btn" id="sample-btn">Prova un esempio</button>
+            <label class="ghost-btn" for="file-input">Carica file<input type="file" id="file-input" accept=".txt,.vtt,text/plain,text/vtt" hidden></label>
+          </div>
+        </div>
+        <textarea id="transcript" spellcheck="false"
+          placeholder="Anna: Buongiorno a tutti, partiamo dal budget…&#10;Marco: D'accordo. Propongo di approvare i 50k per il Q3…&#10;&#10;(oppure trascina qui un file .txt o .vtt)"></textarea>
+        <div class="input-footer">
+          <span id="file-badge" class="file-badge" hidden></span>
+          <span id="char-count">0 caratteri</span>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button type="button" class="primary-btn" id="analyze-btn">
+          <span class="btn-label">Analizza la riunione</span>
+          <span class="btn-loading" hidden>Analisi in corso<span class="dots"><i>.</i><i>.</i><i>.</i></span></span>
+        </button>
+        <p class="hint">Nessun dato viene salvato: la trascrizione è analizzata e scartata.</p>
+      </div>
+
+      <div class="error-banner" id="error-banner" role="alert" hidden></div>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <div class="results-rule"><span>Esito della riunione</span></div>
+
+      <div class="notice" id="truncated-notice" hidden>
+        La trascrizione era molto lunga ed è stata analizzata solo la prima parte.
+      </div>
+
+      <article class="card card--summary">
+        <header><span class="card-index">I</span><h2>Riassunto</h2></header>
+        <p id="summary-text"></p>
+        <ul class="keypoints" id="key-points"></ul>
+        <div class="participants" id="participants"></div>
+      </article>
+
+      <article class="card card--decisions">
+        <header><span class="card-index">II</span><h2>Decisioni prese</h2></header>
+        <ol class="decision-list" id="decisions"></ol>
+      </article>
+
+      <article class="card card--actions">
+        <header><span class="card-index">III</span><h2>Action item per persona</h2></header>
+        <div id="action-items"></div>
+      </article>
+
+      <article class="card card--followups">
+        <header><span class="card-index">IV</span><h2>Follow-up suggeriti</h2></header>
+        <ul class="followup-list" id="follow-ups"></ul>
+      </article>
+
+      <article class="card card--risks">
+        <header><span class="card-index">V</span><h2>Rischi e blocker</h2></header>
+        <ul class="risk-list" id="risks"></ul>
+      </article>
+
+      <article class="card card--questions">
+        <header><span class="card-index">VI</span><h2>Domande senza risposta</h2></header>
+        <ul class="question-list" id="open-questions"></ul>
+      </article>
+
+      <article class="card card--metrics">
+        <header><span class="card-index">VII</span><h2>KPI e metriche</h2></header>
+        <div class="metrics-table-wrap">
+          <table class="metrics-table">
+            <thead>
+              <tr><th>Metrica</th><th>Valore</th><th>Contesto</th></tr>
+            </thead>
+            <tbody id="metrics-body"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="results-actions">
+        <button type="button" class="primary-btn primary-btn--outline" id="copy-btn">Copia come Markdown</button>
+        <span class="model-note" id="model-note"></span>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      <p>MeetingSense - prototipo in fase di test - il tuo parere conta: cosa manca? cosa toglieresti?</p>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
