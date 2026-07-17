@@ -11,22 +11,31 @@ from .models import MeetingAnalysis
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MAX_CHARS = 30_000  # limite prudente per il contesto dei modelli free
 
-SYSTEM_PROMPT = """\
+_LANGUAGE_NAMES = {"it": "italiano", "en": "inglese"}
+_UNASSIGNED_LABEL = {"it": "Non assegnato", "en": "Unassigned"}
+
+
+def _system_prompt(language: str) -> str:
+    lang_name = _LANGUAGE_NAMES.get(language, "italiano")
+    unassigned = _UNASSIGNED_LABEL.get(language, "Non assegnato")
+    return f"""\
 Sei MeetingSense, un assistente che analizza trascrizioni di riunioni aziendali.
 Rispondi SOLO con un oggetto JSON valido, senza testo prima o dopo, conforme a questo schema:
-{
+{{
   "summary": "riassunto discorsivo della riunione (3-6 frasi)",
   "key_points": ["punto discusso 1", "..."],
   "decisions": ["decisione presa 1", "..."],
-  "action_items": [{"task": "cosa fare", "assignee": "nome della persona o 'Non assegnato'", "due_hint": "scadenza citata o null"}],
+  "action_items": [{{"task": "cosa fare", "assignee": "nome della persona o '{unassigned}'", "due_hint": "scadenza citata o null"}}],
   "follow_ups": ["follow-up suggerito 1", "..."],
   "participants": ["nomi dedotti dalla trascrizione"],
   "risks": ["rischio o blocker 1", "..."],
   "open_questions": ["domanda rimasta senza risposta 1", "..."],
-  "metrics": [{"label": "nome della metrica", "value": "valore citato così come detto", "context": "nota breve o null"}]
-}
+  "metrics": [{{"label": "nome della metrica", "value": "valore citato così come detto", "context": "nota breve o null"}}]
+}}
 Regole:
-- Scrivi nella stessa lingua della trascrizione.
+- Scrivi TUTTI i contenuti testuali (summary, key_points, decisions, ecc.) in {lang_name},
+  indipendentemente dalla lingua della trascrizione originale. Se serve, traduci.
+- Usa esattamente "{unassigned}" come assignee quando non è chiaro chi debba occuparsene.
 - Riporta solo decisioni realmente prese, non ipotesi discusse.
 - Assegna gli action item alla persona corretta quando è chiaro dal contesto.
 - In follow_ups suggerisci 2-4 passi successivi utili (verifiche, riunioni, comunicazioni).
@@ -72,7 +81,7 @@ def truncate(transcript: str) -> tuple[str, bool]:
     return transcript[:MAX_CHARS], True
 
 
-async def _call_model(client: httpx.AsyncClient, model: str, transcript: str, api_key: str) -> str:
+async def _call_model(client: httpx.AsyncClient, model: str, transcript: str, api_key: str, language: str) -> str:
     response = await client.post(
         OPENROUTER_URL,
         headers={
@@ -85,7 +94,7 @@ async def _call_model(client: httpx.AsyncClient, model: str, transcript: str, ap
             "temperature": 0.2,
             "response_format": {"type": "json_object"},
             "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "system", "content": _system_prompt(language)},
                 {"role": "user", "content": f"Trascrizione della riunione:\n\n{transcript}"},
             ],
         },
@@ -95,7 +104,7 @@ async def _call_model(client: httpx.AsyncClient, model: str, transcript: str, ap
     return data["choices"][0]["message"]["content"]
 
 
-async def analyze_transcript(transcript: str) -> tuple[MeetingAnalysis, str]:
+async def analyze_transcript(transcript: str, language: str = "it") -> tuple[MeetingAnalysis, str]:
     """Ritorna (analisi, modello usato). Prova il modello primario e, su rate
     limit o errore server, il fallback; ritenta una volta se il JSON è malformato."""
     api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
@@ -111,7 +120,7 @@ async def analyze_transcript(transcript: str) -> tuple[MeetingAnalysis, str]:
         for model in _models():
             for _attempt in range(2):  # secondo tentativo se il JSON non valida
                 try:
-                    content = await _call_model(client, model, transcript, api_key)
+                    content = await _call_model(client, model, transcript, api_key, language)
                     analysis = MeetingAnalysis.model_validate_json(_extract_json(content))
                     return analysis, model
                 except httpx.HTTPStatusError as e:

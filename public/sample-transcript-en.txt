@@ -1,0 +1,15 @@
+Julia Ferrari: Good morning everyone, thanks for joining. Today we need to close three points: the launch of the new landing page, the Q3 marketing budget, and the shipping provider issue.
+Mark Colombo: Perfect, shall we start with the landing page? The design has been ready since Tuesday, we just need the copy for the pricing section.
+Sarah Esposito: I'll handle the copy, but I need final confirmation on the three pricing plans. Are we staying at 19, 49 and 99 euros?
+Julia Ferrari: Yes, let's confirm the three plans as discussed with sales. Decision made, let's not revisit it.
+Sarah Esposito: Great, then I'll deliver the full copy by Thursday.
+Mark Colombo: As soon as I have the copy I'll put the landing page online. I'd say launch next Monday, so we have the weekend as buffer.
+Julia Ferrari: Agreed, launch on Monday. Let's move to the marketing budget: the proposal was to increase it from 8k to 12k euros per month for Q3, focusing the extra spend on LinkedIn Ads.
+Luke Ricci: I'd be cautious, the LinkedIn results from Q2 weren't great. I'd propose 10k, with a review at the end of July.
+Julia Ferrari: Reasonable. Let's do this: we approve 10k per month and Luke prepares a performance report by the end of July, then we decide whether to go up to 12.
+Luke Ricci: Sounds good, I'll take care of it.
+Julia Ferrari: Last point: the shipping provider. June's delays cost us quite a few complaints.
+Mark Colombo: I've heard of two alternatives, BRT and GLS. I can prepare a cost and time comparison for the next meeting.
+Julia Ferrari: Yes, please. Let's not decide today, we'll wait for Mark's comparison. Sarah, in the meantime can you prepare a standard response for customers reporting delays?
+Sarah Esposito: Sure, I'll share it on the channel by tomorrow.
+Julia Ferrari: Perfect. To summarize: pricing plans confirmed, landing page launch on Monday, budget at 10k with a review, and provider comparison next time. Let's catch up again in two weeks, same time. Thanks everyone!

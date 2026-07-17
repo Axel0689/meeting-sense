@@ -76,7 +76,7 @@ FAKE_ANALYSIS = MeetingAnalysis(
 
 @pytest.fixture
 def mock_llm(monkeypatch):
-    async def fake_analyze(transcript: str):
+    async def fake_analyze(transcript: str, language: str = "it"):
         return FAKE_ANALYSIS, "test-model"
 
     monkeypatch.setattr("api.index.analyze_transcript", fake_analyze)
@@ -94,6 +94,41 @@ def test_analyze_endpoint(mock_llm):
     assert body["analysis"]["metrics"][0]["value"] == "50.000€"
     assert body["model_used"] == "test-model"
     assert body["truncated"] is False
+
+
+def test_analyze_defaults_to_italian_language(monkeypatch):
+    received = {}
+
+    async def fake_analyze(transcript: str, language: str = "it"):
+        received["language"] = language
+        return FAKE_ANALYSIS, "test-model"
+
+    monkeypatch.setattr("api.index.analyze_transcript", fake_analyze)
+    resp = client.post("/api/analyze", json={"transcript": SAMPLE_VTT, "filename": "call.vtt"})
+    assert resp.status_code == 200
+    assert received["language"] == "it"
+
+
+def test_analyze_forwards_requested_language(monkeypatch):
+    received = {}
+
+    async def fake_analyze(transcript: str, language: str = "it"):
+        received["language"] = language
+        return FAKE_ANALYSIS, "test-model"
+
+    monkeypatch.setattr("api.index.analyze_transcript", fake_analyze)
+    resp = client.post(
+        "/api/analyze", json={"transcript": SAMPLE_VTT, "filename": "call.vtt", "language": "en"}
+    )
+    assert resp.status_code == 200
+    assert received["language"] == "en"
+
+
+def test_analyze_rejects_invalid_language(mock_llm):
+    resp = client.post(
+        "/api/analyze", json={"transcript": SAMPLE_VTT, "filename": "call.vtt", "language": "fr"}
+    )
+    assert resp.status_code == 422
 
 
 def test_analyze_rejects_short_input(mock_llm):

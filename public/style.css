@@ -49,10 +49,18 @@ body::before {
 .masthead {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
   padding-bottom: 14px;
   border-bottom: 3px double var(--ink);
   animation: rise .6s ease both;
+}
+
+.masthead-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .brand {
@@ -80,6 +88,33 @@ body::before {
   text-transform: uppercase;
   letter-spacing: .14em;
   color: var(--ink-soft);
+}
+
+.lang-switch {
+  display: flex;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  font-family: var(--sans);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ink-soft);
+  background: var(--paper-deep);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.lang-btn + .lang-btn { border-left: 1px solid var(--rule); }
+.lang-btn:hover { background: var(--accent-wash); color: var(--accent); }
+.lang-btn.active {
+  background: var(--accent);
+  color: var(--paper);
 }
 
 /* ---------- intro ---------- */

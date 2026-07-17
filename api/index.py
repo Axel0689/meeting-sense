@@ -51,7 +51,7 @@ async def analyze(payload: AnalyzeRequest, request: Request) -> AnalyzeResponse:
         raise HTTPException(status_code=429, detail=str(e))
     transcript, truncated = truncate(transcript)
     try:
-        analysis, model_used = await analyze_transcript(transcript)
+        analysis, model_used = await analyze_transcript(transcript, payload.language)
     except LLMError as e:
         raise HTTPException(status_code=e.status_code, detail=str(e))
     return AnalyzeResponse(analysis=analysis, truncated=truncated, model_used=model_used)

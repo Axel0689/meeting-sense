@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -28,6 +30,7 @@ class MeetingAnalysis(BaseModel):
 class AnalyzeRequest(BaseModel):
     transcript: str = Field(max_length=300_000)
     filename: str = ""
+    language: Literal["it", "en"] = "it"
 
 
 class AnalyzeResponse(BaseModel):
