@@ -78,18 +78,24 @@ app/models.py     # schema Pydantic dell'analisi
 app/parsing.py    # normalizzazione .txt/.vtt
 app/llm.py        # client OpenRouter + prompt + fallback
 app/ratelimit.py  # limiti giornalieri (Upstash Redis)
-public/           # frontend statico
+public/           # frontend statico (index.html, app.js con dizionario i18n IT/EN)
 tests/            # pytest (LLM e Upstash mockati)
 ```
+
+## Lingua (i18n)
+
+L'interfaccia e l'analisi supportano italiano e inglese. Il selettore in pagina imposta `currentLang` (persistito in `localStorage`, con auto-rilevamento iniziale da `navigator.language`) e lo invia come campo `language` (`"it"`/`"en"`) nel body di `POST /api/analyze`: il prompt in `app/llm.py` istruisce il modello a rispondere in quella lingua, indipendentemente dalla lingua della trascrizione originale. Il bottone "Prova un esempio" carica `public/sample-transcript.txt` o `public/sample-transcript-en.txt` a seconda della lingua attiva.
+
+Per aggiungere altre lingue: estendere `Literal["it", "en"]` in `app/models.py`, `_LANGUAGE_NAMES`/`_UNASSIGNED_LABEL` in `app/llm.py`, l'oggetto `translations` in `public/app.js` e creare una nuova trascrizione di esempio.
 
 ## Sicurezza
 
 - Nessun dato viene persistito: la trascrizione è analizzata e scartata (transita da OpenRouter — non inserire contenuti riservati durante i test).
-- Nessuna chiave o segreto è mai esposto al client; tutto il rendering frontend usa `textContent` (nessun `innerHTML`), quindi nessuna superficie XSS dal contenuto analizzato.
+- Nessuna chiave o segreto è mai esposto al client. Il contenuto analizzato (LLM) e i dati inseriti dall'utente vengono sempre renderizzati con `textContent`, mai `innerHTML`: l'unico uso di `innerHTML` è per le due stringhe statiche del dizionario traduzioni (`introTitle`/`introText` in `app.js`), testo fisso scritto da chi sviluppa l'app, non contenuto dinamico — nessuna superficie XSS dal contenuto analizzato.
 - Limiti di dimensione sia lato client (upload file max 2MB) sia lato server (trascrizione max 300.000 caratteri) contro payload abnormi.
 - Il rate limiting per IP usa l'ultimo valore della catena `X-Forwarded-For` (il proxy Vercel), non il primo, per evitare che un client possa falsificarlo.
 - Header di sicurezza di base (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`) su tutte le risposte.
 
 ## Fuori scope (per ora)
 
-Audio/STT, autenticazione, storico riunioni/database, integrazioni (calendari, Slack), sentiment/tono, metriche di partecipazione, deviazione dall'agenda con timestamp, generazione slide.
+Audio/STT, autenticazione, storico riunioni/database, integrazioni (calendari, Slack), sentiment/tono, metriche di partecipazione, deviazione dall'agenda con timestamp, generazione slide, lingue oltre italiano/inglese.

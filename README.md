@@ -20,12 +20,15 @@ MeetingSense è un assistente che trasforma la trascrizione di una call aziendal
 - ❓ **Domande rimaste senza risposta**
 - 📊 **KPI e metriche citate** (budget, date, percentuali, obiettivi) in una tabella
 - 📋 Un bottone per **copiare tutto come Markdown** e incollarlo in email, Slack o Notion
+- 🌐 **Interfaccia e analisi in italiano o inglese**, indipendentemente dalla lingua della trascrizione
 
 ## Come usarlo
 
 1. Incolla il testo della trascrizione (o carica un file `.txt`/`.vtt`) nella pagina.
 2. Clicca "Analizza la riunione".
 3. Dopo pochi secondi ottieni il verbale completo, pronto da leggere o esportare.
+
+Il selettore **IT / EN** in alto cambia sia la lingua dell'interfaccia sia quella dell'analisi generata, anche se la trascrizione originale è nell'altra lingua.
 
 Nessun dato viene salvato: la trascrizione è analizzata al volo e scartata.
 
