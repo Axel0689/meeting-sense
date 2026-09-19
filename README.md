@@ -30,7 +30,7 @@ MeetingSense è un assistente che trasforma la trascrizione di una call aziendal
 
 Il selettore **IT / EN** in alto cambia sia la lingua dell'interfaccia sia quella dell'analisi generata, anche se la trascrizione originale è nell'altra lingua.
 
-Nessun dato viene salvato: la trascrizione è analizzata al volo e scartata.
+MeetingSense non salva la trascrizione, ma il testo viene inviato a OpenRouter e ai provider dei modelli gratuiti, che potrebbero registrarlo. Non inserire dati riservati.
 
 ## Stack tecnico
 
