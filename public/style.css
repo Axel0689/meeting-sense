@@ -526,3 +526,40 @@ textarea::placeholder { color: #a89e8d; }
   .card { padding: 20px 18px; }
   .decision-list li { padding-left: 36px; }
 }
+
+/* ---------- supporto: link nel footer e pagine legali ---------- */
+
+.support-nav {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+}
+.support-nav-label {
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .7rem;
+}
+.support-nav a, .doc a { color: var(--accent); text-underline-offset: 3px; }
+.support-nav a:hover, .doc a:hover { color: var(--accent-bright); }
+
+.doc { max-width: 680px; padding: 44px 0 0; animation: rise .6s .08s ease both; }
+.doc h1 { font-family: var(--serif); font-weight: 550; font-size: 2.1rem; line-height: 1.15; margin-bottom: 6px; }
+.doc .doc-meta { font-size: .8rem; color: var(--ink-soft); margin-bottom: 28px; }
+.doc h2 { font-family: var(--serif); font-weight: 550; font-size: 1.2rem; margin: 28px 0 8px; }
+.doc p, .doc li { font-size: .95rem; margin-bottom: 10px; }
+.doc ul { padding-left: 22px; margin-bottom: 10px; }
+.doc .back-link { display: inline-block; margin-bottom: 18px; font-size: .85rem; }
+
+/* le pagine contengono entrambe le lingue: mostra quella attiva */
+html[lang="it"] [lang="en"], html[lang="en"] [lang="it"] { display: none; }
+a.brand { text-decoration: none; color: inherit; }
+
+.ai-disclosure {
+  font-size: .8rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0 0 18px;
+}

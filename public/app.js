@@ -68,6 +68,9 @@ const translations = {
     metricContext: "Contesto",
     copyBtn: "Copia come Markdown",
     footerText: "MeetingSense - prototipo in fase di test - il tuo parere conta: cosa manca? cosa toglieresti?",
+    aiDisclosure: "Contenuto generato da intelligenza artificiale: può contenere errori. Verificalo prima di usarlo.",
+    supportLabel: "Supporto",
+    linkTerms: "Termini d'uso",
 
     charCountSuffix: "caratteri",
     unsupportedFormat: "Formato non supportato: carica un file .txt o .vtt.",
@@ -133,6 +136,9 @@ const translations = {
     metricContext: "Context",
     copyBtn: "Copy as Markdown",
     footerText: "MeetingSense - prototype in public testing - your feedback matters: what's missing? what would you remove?",
+    aiDisclosure: "AI-generated content: it may contain errors. Verify it before using it.",
+    supportLabel: "Support",
+    linkTerms: "Terms of Use",
 
     charCountSuffix: "characters",
     unsupportedFormat: "Unsupported format: upload a .txt or .vtt file.",
